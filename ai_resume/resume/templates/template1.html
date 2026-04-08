@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e6e6e6;
+        }
+
+        .resume {
+            width: 650px;
+            min-height: 1100px;   /* 🔥 makes page longer */
+            margin: 40px auto;
+            background: white;
+            padding: 60px;        /* 🔥 more inner spacing */
+        }
+
+        /* NAME */
+        h1 {
+            text-align: center;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        /* CONTACT */
+        .contact {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 25px;
+            color: #444;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 30px 0;   /* 🔥 more gap */
+        }
+
+        /* SECTION TITLES */
+        h3 {
+            letter-spacing: 2px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.8;   /* 🔥 better readability */
+        }
+
+        /* ITEMS */
+        .item {
+            margin-bottom: 25px;   /* 🔥 more space between items */
+        }
+
+        .bold {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* SKILLS */
+        .skills {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .skills ul {
+            padding-left: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="resume">
+
+    <!-- NAME -->
+    <h1>{{ resume.name|upper }}</h1>
+    <div class="subtitle">Professional</div>
+
+    <!-- CONTACT -->
+    <div class="contact">
+        {{ resume.phone }} &nbsp; | &nbsp;
+        {{ resume.email }} &nbsp; | &nbsp;
+        Ghaziabad, India
+    </div>
+
+    <hr>
+
+    <!-- ABOUT -->
+    <h3>ABOUT ME</h3>
+    <p>{{ resume.summary }}</p>
+
+    <hr>
+
+    <!-- EDUCATION -->
+    <h3>EDUCATION</h3>
+
+    <div class="item">
+        <div class="small">{{ resume.education }}</div>
+        <div class="bold">Degree / Course</div>
+        <p>Description about your education</p>
+    </div>
+
+
+    <hr>
+
+    <!-- EXPERIENCE -->
+    <h3>WORK EXPERIENCE</h3>
+
+    <div class="item">
+        <div class="small">{{ resume.experience }}</div>
+        <hr>
+        <div class="bold">Job Role</div>
+        <hr>
+        <p>Work description goes here</p>
+    </div>
+
+
+    <hr>
+
+    <!-- SKILLS -->
+    <h3>SKILLS</h3>
+
+    <div class="skills">
+        <ul>
+            <li>{{ resume.skills }}</li>
+        </ul>
+        <ul>
+            <li>Problem Solving</li>
+        </ul>
+        <ul>
+            <li>Communication</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

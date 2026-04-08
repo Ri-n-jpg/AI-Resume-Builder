@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5" style="max-width: 900px;">
+
+  <div class="card shadow p-4">
+
+    <h3 class="mb-4 text-center fw-bold">Create Your Resume</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- PERSONAL INFO -->
+      <h5 class="mb-3">Personal Information</h5>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
+        </div>
+        <div class="col-md-6">
+          <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="phone" class="form-control mb-3" placeholder="Phone Number">
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="location" class="form-control mb-3" placeholder="Location (City)">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="github" class="form-control mb-3" placeholder="GitHub Profile">
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="linkedin" class="form-control mb-3" placeholder="LinkedIn Profile">
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- SUMMARY -->
+      <h5 class="mb-3">Professional Summary</h5>
+      <textarea name="summary" rows="3" class="form-control mb-3" placeholder="Write a short summary..."></textarea>
+
+      <hr>
+
+      <!-- EDUCATION -->
+      <h5 class="mb-3">Education</h5>
+      <textarea name="education" rows="3" class="form-control mb-3"
+        placeholder="Eg: B.Tech - ABC College (2020-2024)"></textarea>
+
+      <hr>
+
+      <!-- EXPERIENCE -->
+      <h5 class="mb-3">Work Experience</h5>
+      <textarea name="experience" rows="3" class="form-control mb-3"
+        placeholder="Eg: Software Intern - XYZ Company (2023)"></textarea>
+
+      <hr>
+
+      <!-- SKILLS -->
+      <h5 class="mb-3">Skills</h5>
+      <input type="text" name="skills" class="form-control mb-3"
+        placeholder="Eg: Python, Django, JavaScript">
+
+      <small class="text-muted">Separate skills with commas</small>
+
+      <hr>
+
+      <!-- TEMPLATE -->
+      <h5 class="mb-3">Choose Template</h5>
+      <select name="template" class="form-control mb-4">
+        <option value="template1">Simple Professional</option>
+        <option value="template2">Modern Stylish</option>
+      </select>
+
+      <!-- SUBMIT -->
+      <button class="btn btn-primary w-100 py-2 fw-bold">
+        Save Resume 🚀
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

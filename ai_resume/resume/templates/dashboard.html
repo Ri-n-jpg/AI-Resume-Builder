@@ -6,40 +6,36 @@
   <div class="row">
 
     <!-- SIDEBAR -->
-    <div class="col-md-2 bg-light min-vh-100 p-3">
-
-      <h5 class="mb-4">Menu</h5>
+    <div class="col-md-2 bg-light min-vh-100 p-4 shadow-sm">
+      <h5 class="mb-4 fw-bold">Dashboard</h5>
 
       <ul class="nav flex-column">
-
         <li class="nav-item mb-2">
-          <a class="nav-link" href="#">Overview</a>
+          <a class="nav-link text-dark" href="#">🏠 Overview</a>
         </li>
 
         <li class="nav-item mb-2">
-          <a class="nav-link active" href="/dashboard/">My Resumes</a>
+          <a class="nav-link active fw-bold text-primary" href="/dashboard/">📄 My Resumes</a>
         </li>
 
         <li class="nav-item mb-2">
-          <a class="nav-link" href="#">Templates</a>
+          <a class="nav-link text-dark" href="#">🎨 Templates</a>
         </li>
 
         <li class="nav-item mb-2">
-          <a class="nav-link" href="#">Settings</a>
+          <a class="nav-link text-dark" href="#">⚙️ Settings</a>
         </li>
-
       </ul>
-
     </div>
 
     <!-- MAIN CONTENT -->
-    <div class="col-md-10 p-4">
+    <div class="col-md-10 p-5">
 
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold">My Resumes</h2>
 
-        <a href="/create/" class="btn btn-primary">
+        <a href="/create/" class="btn btn-primary px-4">
           + Create Resume
         </a>
       </div>
@@ -50,20 +46,31 @@
         {% for resume in resumes %}
         <div class="col-md-4">
 
-          <div class="card mb-4 shadow-sm">
+          <div class="card mb-4 shadow border-0">
             <div class="card-body">
 
-              <h5 class="card-title">{{ resume.name }}</h5>
-              <p class="text-muted">{{ resume.email }}</p>
+              <h5 class="card-title fw-bold">{{ resume.name }}</h5>
+              <p class="text-muted mb-1">{{ resume.email }}</p>
+              <p class="text-muted small">
+                Created: {{ resume.created_at|date:"d M Y" }}
+              </p>
+
+              <hr>
 
               <div class="d-flex justify-content-between">
-                <a href="/edit/{{ resume.id }}/" class="btn btn-sm btn-outline-primary">
-                  Edit
+
+                <a href="/preview/{{ resume.id }}/" class="btn btn-sm btn-success">
+                  👁 Preview
                 </a>
 
-                <a href="/preview/{{ resume.id }}/" class="btn btn-sm btn-outline-success">
-                  Preview
+                <a href="/edit/{{ resume.id }}/" class="btn btn-sm btn-warning">
+                  ✏️ Edit
                 </a>
+
+                <a href="/delete/{{ resume.id }}/" class="btn btn-sm btn-danger">
+                  🗑 Delete
+                </a>
+
               </div>
 
             </div>
@@ -73,9 +80,11 @@
 
         {% empty %}
         <div class="text-center mt-5">
-          <h4>No resumes yet</h4>
-          <a href="/create/" class="btn btn-primary mt-3">
-            Create Your First Resume
+          <h4>No resumes yet 😢</h4>
+          <p class="text-muted">Start by creating your first resume</p>
+
+          <a href="/create/" class="btn btn-primary mt-3 px-4">
+            + Create Resume
           </a>
         </div>
         {% endfor %}

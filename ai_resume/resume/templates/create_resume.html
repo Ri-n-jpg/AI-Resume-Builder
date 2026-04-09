@@ -1,11 +1,8 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block content %}
 
 <div class="container mt-5" style="max-width: 900px;">
-
   <div class="card shadow p-4">
-
     <h3 class="mb-4 text-center fw-bold">Create Your Resume</h3>
 
     <form method="POST">
@@ -13,7 +10,6 @@
 
       <!-- PERSONAL INFO -->
       <h5 class="mb-3">Personal Information</h5>
-
       <div class="row">
         <div class="col-md-6">
           <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
@@ -23,6 +19,7 @@
         </div>
       </div>
 
+      <!-- PHONE & LOCATION -->
       <div class="row">
         <div class="col-md-6">
           <input type="text" name="phone" class="form-control mb-3" placeholder="Phone Number">
@@ -32,12 +29,22 @@
         </div>
       </div>
 
+      <!-- PROFILE LINKS -->
       <div class="row">
         <div class="col-md-6">
-          <input type="text" name="github" class="form-control mb-3" placeholder="GitHub Profile">
+          <input type="url" name="github" class="form-control mb-3" placeholder="GitHub Profile">
         </div>
         <div class="col-md-6">
-          <input type="text" name="linkedin" class="form-control mb-3" placeholder="LinkedIn Profile">
+          <input type="url" name="linkedin" class="form-control mb-3" placeholder="LinkedIn Profile">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="url" name="leetcode" class="form-control mb-3" placeholder="LeetCode Profile">
+        </div>
+        <div class="col-md-6">
+          <input type="url" name="gfg" class="form-control mb-3" placeholder="GFG Profile">
         </div>
       </div>
 
@@ -51,23 +58,19 @@
 
       <!-- EDUCATION -->
       <h5 class="mb-3">Education</h5>
-      <textarea name="education" rows="3" class="form-control mb-3"
-        placeholder="Eg: B.Tech - ABC College (2020-2024)"></textarea>
+      <textarea name="education" rows="3" class="form-control mb-3" placeholder="Eg: B.Tech - ABC College (2020-2024)"></textarea>
 
       <hr>
 
       <!-- EXPERIENCE -->
       <h5 class="mb-3">Work Experience</h5>
-      <textarea name="experience" rows="3" class="form-control mb-3"
-        placeholder="Eg: Software Intern - XYZ Company (2023)"></textarea>
+      <textarea name="experience" rows="3" class="form-control mb-3" placeholder="Eg: Software Intern - XYZ Company (2023)"></textarea>
 
       <hr>
 
       <!-- SKILLS -->
       <h5 class="mb-3">Skills</h5>
-      <input type="text" name="skills" class="form-control mb-3"
-        placeholder="Eg: Python, Django, JavaScript">
-
+      <input type="text" name="skills" class="form-control mb-3" placeholder="Eg: Python, Django, JavaScript">
       <small class="text-muted">Separate skills with commas</small>
 
       <hr>
@@ -80,14 +83,11 @@
       </select>
 
       <!-- SUBMIT -->
-      <button class="btn btn-primary w-100 py-2 fw-bold">
+      <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
         Save Resume 🚀
       </button>
-
     </form>
-
   </div>
-
 </div>
 
 {% endblock %}

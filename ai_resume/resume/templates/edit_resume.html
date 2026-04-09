@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5" style="max-width: 900px;">
+  <div class="card shadow p-4">
+    <h3 class="mb-4 text-center fw-bold">Edit Your Resume</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Personal Info -->
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required value="{{ resume.name }}">
+        </div>
+        <div class="col-md-6">
+          <input type="email" name="email" class="form-control mb-3" placeholder="Email" required value="{{ resume.email }}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="phone" class="form-control mb-3" placeholder="Phone Number" value="{{ resume.phone }}">
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="location" class="form-control mb-3" placeholder="Location (City)" value="{{ resume.location }}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="github" class="form-control mb-3" placeholder="GitHub Profile" value="{{ resume.github }}">
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="linkedin" class="form-control mb-3" placeholder="LinkedIn Profile" value="{{ resume.linkedin }}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="leetcode" class="form-control mb-3" placeholder="LeetCode Profile" value="{{ resume.leetcode }}">
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="gfg" class="form-control mb-3" placeholder="GFG Profile" value="{{ resume.gfg }}">
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <h5 class="mb-3">Professional Summary</h5>
+      <textarea name="summary" rows="3" class="form-control mb-3" placeholder="Write a short summary...">{{ resume.summary }}</textarea>
+
+      <!-- Education -->
+      <h5 class="mb-3">Education</h5>
+      <textarea name="education" rows="3" class="form-control mb-3">{{ resume.education }}</textarea>
+
+      <!-- Experience -->
+      <h5 class="mb-3">Work Experience</h5>
+      <textarea name="experience" rows="3" class="form-control mb-3">{{ resume.experience }}</textarea>
+
+      <!-- Skills -->
+      <h5 class="mb-3">Skills</h5>
+      <input type="text" name="skills" class="form-control mb-3" value="{{ resume.skills }}">
+      <small class="text-muted">Separate skills with commas</small>
+
+      <!-- Template -->
+      <h5 class="mb-3">Choose Template</h5>
+      <select name="template" class="form-control mb-4">
+        <option value="template1" {% if resume.template == 'template1' %}selected{% endif %}>Simple Professional</option>
+        <option value="template2" {% if resume.template == 'template2' %}selected{% endif %}>Modern Stylish</option>
+      </select>
+
+      <button class="btn btn-primary w-100 py-2 fw-bold">Update Resume 🚀</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

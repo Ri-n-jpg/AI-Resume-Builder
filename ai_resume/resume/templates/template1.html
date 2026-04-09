@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Resume</title>
-
+    <title>{{ resume.name }} - Resume</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #e6e6e6;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
 
         .resume {
-            width: 650px;
-            min-height: 1100px;   /* 🔥 makes page longer */
+            width: 700px;
             margin: 40px auto;
-            background: white;
-            padding: 60px;        /* 🔥 more inner spacing */
+            background: #fff;
+            padding: 50px 60px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* NAME */
         h1 {
             text-align: center;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             margin-bottom: 5px;
             font-size: 32px;
         }
@@ -28,67 +28,51 @@
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 16px;
         }
 
-        /* CONTACT */
         .contact {
             text-align: center;
             font-size: 14px;
-            margin-bottom: 25px;
             color: #444;
+            margin-bottom: 30px;
+        }
+
+        .contact a {
+            text-decoration: none;
+            color: #1a73e8;
+            margin: 0 5px;
         }
 
         hr {
             border: none;
             border-top: 1px solid #ccc;
-            margin: 30px 0;   /* 🔥 more gap */
+            margin: 25px 0;
         }
 
-        /* SECTION TITLES */
         h3 {
-            letter-spacing: 2px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            margin-top: 10px;
-        }
-
-        p {
-            font-size: 14px;
+            font-size: 16px;
+            letter-spacing: 1.5px;
             color: #333;
-            line-height: 1.8;   /* 🔥 better readability */
+            margin-bottom: 10px;
         }
 
-        /* ITEMS */
-        .item {
-            margin-bottom: 25px;   /* 🔥 more space between items */
+        p, li {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
         }
 
-        .bold {
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .small {
-            font-size: 13px;
-            color: #666;
-        }
-
-        /* SKILLS */
-        .skills {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .skills ul {
+        ul {
             padding-left: 20px;
         }
 
+        .section {
+            margin-bottom: 25px;
+        }
     </style>
 </head>
-
 <body>
 
 <div class="resume">
@@ -99,59 +83,67 @@
 
     <!-- CONTACT -->
     <div class="contact">
-        {{ resume.phone }} &nbsp; | &nbsp;
-        {{ resume.email }} &nbsp; | &nbsp;
-        Ghaziabad, India
+        {% if resume.phone or resume.email %}
+            <span>
+                {{ resume.phone }}{% if resume.phone and resume.email %} &nbsp; | &nbsp; {% endif %}
+                {{ resume.email }}
+            </span>
+            <br><br>
+        {% endif %}
+        <span>
+            {% if resume.linkedin %}<a href="{{ resume.linkedin }}" target="_blank">LinkedIn</a>{% endif %}
+            {% if resume.leetcode %}&nbsp; — &nbsp;<a href="{{ resume.leetcode }}" target="_blank">LeetCode</a>{% endif %}
+            {% if resume.github %}&nbsp; — &nbsp;<a href="{{ resume.github }}" target="_blank">GitHub</a>{% endif %}
+            {% if resume.gfg %}&nbsp; — &nbsp;<a href="{{ resume.gfg }}" target="_blank">GFG</a>{% endif %}
+        </span>
     </div>
-
-    <hr>
 
     <!-- ABOUT -->
-    <h3>ABOUT ME</h3>
-    <p>{{ resume.summary }}</p>
-
+    {% if resume.summary %}
+    <div class="section">
+        <h3>About Me</h3>
+        <p>{{ resume.summary }}</p>
+    </div>
     <hr>
+    {% endif %}
 
     <!-- EDUCATION -->
-    <h3>EDUCATION</h3>
-
-    <div class="item">
-        <div class="small">{{ resume.education }}</div>
-        <div class="bold">Degree / Course</div>
-        <p>Description about your education</p>
+    {% if education_list %}
+    <div class="section">
+        <h3>Education</h3>
+        <ul>
+            {% for edu in education_list %}
+                <li>{{ edu }}</li>
+            {% endfor %}
+        </ul>
     </div>
-
-
     <hr>
+    {% endif %}
 
     <!-- EXPERIENCE -->
-    <h3>WORK EXPERIENCE</h3>
-
-    <div class="item">
-        <div class="small">{{ resume.experience }}</div>
-        <hr>
-        <div class="bold">Job Role</div>
-        <hr>
-        <p>Work description goes here</p>
+    {% if experience_list %}
+    <div class="section">
+        <h3>Work Experience</h3>
+        <ul>
+            {% for exp in experience_list %}
+                <li>{{ exp }}</li>
+            {% endfor %}
+        </ul>
     </div>
-
-
     <hr>
+    {% endif %}
 
     <!-- SKILLS -->
-    <h3>SKILLS</h3>
-
-    <div class="skills">
+    {% if skills_list %}
+    <div class="section">
+        <h3>Skills</h3>
         <ul>
-            <li>{{ resume.skills }}</li>
-        </ul>
-        <ul>
-            <li>Problem Solving</li>
-        </ul>
-        <ul>
-            <li>Communication</li>
+            {% for skill in skills_list %}
+                <li>{{ skill }}</li>
+            {% endfor %}
         </ul>
     </div>
+    {% endif %}
 
 </div>
 

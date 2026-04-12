@@ -82,3 +82,15 @@ def edit_resume(request, id):
         return redirect("dashboard")
 
     return render(request, "edit_resume.html", {"resume": resume})
+def overview(request):
+    resumes = Resume.objects.all()
+
+    context = {
+        "total_resumes": resumes.count(),
+        "monthly_resumes": resumes.count(),  # (temporary logic)
+        "last_resume": resumes.order_by('-id').first()
+    }
+
+    return render(request, "overview.html", context)
+def template(request):
+    return render(request, "template.html")

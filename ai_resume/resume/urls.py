@@ -6,4 +6,6 @@ urlpatterns = [
 path('create/', views.create_resume, name='create_resume'),
     path('edit/<int:id>/', views.edit_resume, name='edit_resume'),
  path('preview/<int:id>/', views.preview_resume, name='preview_resume'),
+    path('overview/', views.overview, name='overview'),
+    path('template/',views.template, name='template'),
     ]

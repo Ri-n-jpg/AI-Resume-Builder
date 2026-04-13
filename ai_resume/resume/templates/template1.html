@@ -2,148 +2,183 @@
 <html>
 <head>
     <title>{{ resume.name }} - Resume</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f4;
             margin: 0;
             padding: 0;
+            background: #ffffff;
         }
 
         .resume {
-            width: 700px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 50px 60px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 800px;
+            margin: 30px auto;
+            padding: 30px;
         }
 
-        h1 {
+        /* HEADER */
+        .header {
             text-align: center;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
+            letter-spacing: 1px;
         }
 
         .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 16px;
+            color: gray;
+            margin-top: 5px;
+            font-size: 14px;
         }
 
         .contact {
-            text-align: center;
-            font-size: 14px;
-            color: #444;
-            margin-bottom: 30px;
-        }
-
-        .contact a {
-            text-decoration: none;
-            color: #1a73e8;
-            margin: 0 5px;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #ccc;
-            margin: 25px 0;
-        }
-
-        h3 {
-            font-size: 16px;
-            letter-spacing: 1.5px;
+            font-size: 13px;
+            margin-top: 8px;
             color: #333;
-            margin-bottom: 10px;
         }
 
-        p, li {
+        /* LAYOUT */
+        table {
+            width: 100%;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+
+        td {
+            vertical-align: top;
+            padding: 15px;
+        }
+
+        .left {
+            width: 35%;
+            background: #f5f7fa;
+        }
+
+        .right {
+            width: 65%;
+        }
+
+        /* SECTIONS */
+        h3 {
             font-size: 14px;
-            color: #555;
-            line-height: 1.6;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         ul {
-            padding-left: 20px;
+            padding-left: 18px;
         }
 
-        .section {
-            margin-bottom: 25px;
+        li {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #444;
         }
+
+        p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #444;
+        }
+
     </style>
 </head>
+
 <body>
 
 <div class="resume">
 
-    <!-- NAME -->
-    <h1>{{ resume.name|upper }}</h1>
-    <div class="subtitle">Professional</div>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>{{ resume.name|upper }}</h1>
+        <div class="subtitle">Professional Resume</div>
 
-    <!-- CONTACT -->
-    <div class="contact">
-        {% if resume.phone or resume.email %}
-            <span>
-                {{ resume.phone }}{% if resume.phone and resume.email %} &nbsp; | &nbsp; {% endif %}
-                {{ resume.email }}
-            </span>
-            <br><br>
-        {% endif %}
-        <span>
-            {% if resume.linkedin %}<a href="{{ resume.linkedin }}" target="_blank">LinkedIn</a>{% endif %}
-            {% if resume.leetcode %}&nbsp; — &nbsp;<a href="{{ resume.leetcode }}" target="_blank">LeetCode</a>{% endif %}
-            {% if resume.github %}&nbsp; — &nbsp;<a href="{{ resume.github }}" target="_blank">GitHub</a>{% endif %}
-            {% if resume.gfg %}&nbsp; — &nbsp;<a href="{{ resume.gfg }}" target="_blank">GFG</a>{% endif %}
-        </span>
-    </div>
+        <div class="contact">
+            📞 {{ resume.phone }} |
+            ✉ {{ resume.email }}
+        </div>
 
-    <!-- ABOUT -->
-    {% if resume.summary %}
-    <div class="section">
-        <h3>About Me</h3>
-        <p>{{ resume.summary }}</p>
-    </div>
-    <hr>
+        <div class="contact">
+
+    {% if resume.linkedin %}
+        <a href="{{ resume.linkedin }}" target="_blank" rel="noopener noreferrer">
+            LinkedIn
+        </a>
     {% endif %}
 
-    <!-- EDUCATION -->
-    {% if education_list %}
-    <div class="section">
-        <h3>Education</h3>
-        <ul>
-            {% for edu in education_list %}
-                <li>{{ edu }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <hr>
+    {% if resume.github %}
+        | <a href="{{ resume.github }}" target="_blank" rel="noopener noreferrer">
+            GitHub
+        </a>
     {% endif %}
 
-    <!-- EXPERIENCE -->
-    {% if experience_list %}
-    <div class="section">
-        <h3>Work Experience</h3>
-        <ul>
-            {% for exp in experience_list %}
-                <li>{{ exp }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <hr>
+    {% if resume.leetcode %}
+        | <a href="{{ resume.leetcode }}" target="_blank" rel="noopener noreferrer">
+            LeetCode
+        </a>
     {% endif %}
 
-    <!-- SKILLS -->
-    {% if skills_list %}
-    <div class="section">
-        <h3>Skills</h3>
-        <ul>
-            {% for skill in skills_list %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% if resume.gfg %}
+        | <a href="{{ resume.gfg }}" target="_blank" rel="noopener noreferrer">
+            GFG
+        </a>
     {% endif %}
+
+</div>
+
+    <!-- MAIN LAYOUT -->
+    <table>
+
+        <tr>
+
+            <!-- LEFT SIDE -->
+            <td class="left">
+
+                <h3>Skills</h3>
+                <ul>
+                    {% for skill in skills_list %}
+                        <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h3>Education</h3>
+                <ul>
+                    {% for edu in education_list %}
+                        <li>{{ edu }}</li>
+                    {% endfor %}
+                </ul>
+
+            </td>
+
+            <!-- RIGHT SIDE -->
+            <td class="right">
+
+                <h3>About Me</h3>
+                <p>{{ resume.summary }}</p>
+
+                <h3>Experience</h3>
+                <ul>
+                    {% for exp in experience_list %}
+                        <li>{{ exp }}</li>
+                    {% endfor %}
+                </ul>
+
+            </td>
+
+        </tr>
+
+    </table>
+    <div style="text-align:center; margin-bottom:20px;">
+    <a href="{% url 'download_pdf' resume.id resume.template %}">
+  Download PDF
+</a>
+</div>
 
 </div>
 

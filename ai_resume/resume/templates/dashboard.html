@@ -11,28 +11,24 @@
 
       <ul class="nav flex-column">
 
-        <!-- HOME -->
         <li class="nav-item mb-2">
           <a class="nav-link text-dark" href="{% url 'home' %}">
             🏠 Home
           </a>
         </li>
 
-        <!-- OVERVIEW -->
         <li class="nav-item mb-2">
           <a class="nav-link text-dark" href="{% url 'overview' %}">
             📊 Overview
           </a>
         </li>
 
-        <!-- TEMPLATES -->
         <li class="nav-item mb-2">
           <a class="nav-link text-dark" href="{% url 'template' %}">
             🎨 Templates
           </a>
         </li>
 
-        <!-- SETTINGS -->
         <li class="nav-item mb-2">
           <a class="nav-link text-dark" href="{% url 'settings' %}">
             ⚙️ Settings
@@ -72,18 +68,41 @@
 
               <hr>
 
-              <div class="d-flex justify-content-between">
+              <!-- TOP ACTIONS -->
+              <div class="d-flex justify-content-between mb-2">
 
                 <a href="/preview/{{ resume.id }}/" class="btn btn-sm btn-success">
-                  👁 Preview
+                  👁
                 </a>
 
                 <a href="/edit/{{ resume.id }}/" class="btn btn-sm btn-warning">
-                  ✏️ Edit
+                  ✏️
+                </a>
+                <form action="/delete/{{ resume.id }}/" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-danger"
+            onclick="return confirm('Delete this resume?')">
+        🗑
+    </button>
+</form>
+              </div>
+
+              <!-- DOWNLOAD BUTTONS -->
+              <div>
+
+                <a href="{% url 'download_pdf' resume.id 'ats' %}"
+                   class="btn btn-sm btn-dark w-100 mb-1">
+                  📄 Download ATS
                 </a>
 
-                <a href="/delete/{{ resume.id }}/" class="btn btn-sm btn-danger">
-                  🗑 Delete
+                <a href="{% url 'download_pdf' resume.id 'modern' %}"
+                   class="btn btn-sm btn-primary w-100 mb-1">
+                  🎨 Download Modern
+                </a>
+
+                <a href="{% url 'download_pdf' resume.id 'creative' %}"
+                   class="btn btn-sm btn-secondary w-100">
+                  🧩 Download Creative
                 </a>
 
               </div>

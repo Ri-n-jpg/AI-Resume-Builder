@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial; }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        .sidebar {
+            width: 30%;
+            background: #333;
+            color: white;
+            padding: 15px;
+            vertical-align: top;
+        }
+
+        .content {
+            padding: 15px;
+            vertical-align: top;
+        }
+
+        h3 { border-bottom: 1px solid #000; }
+    </style>
+</head>
+<body>
+
+<table>
+<tr>
+
+<td class="sidebar">
+    <h2>{{ resume.name }}</h2>
+    <p>{{ resume.email }}</p>
+    <p>{{ resume.phone }}</p>
+
+    <h3>Skills</h3>
+    {% for skill in skills_list %}
+        <p>{{ skill }}</p>
+    {% endfor %}
+</td>
+
+<td class="content">
+    <h3>Summary</h3>
+    <p>{{ resume.summary }}</p>
+
+    <h3>Experience</h3>
+    <ul>
+        {% for exp in experience_list %}
+            <li>{{ exp }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Education</h3>
+    <ul>
+        {% for edu in education_list %}
+            <li>{{ edu }}</li>
+        {% endfor %}
+    </ul>
+</td>
+
+</tr>
+</table>
+
+</body>
+</html>

@@ -222,9 +222,60 @@ def logout_all(request):
 
 # ---------------- DELETE ACCOUNT ----------------
 @login_required
-def delete_account(request):
-    if request.method == "POST":
-        request.user.delete()
-        return redirect("home")
+def delete_resume(request, id):
+    resume = get_object_or_404(Resume, id=id, user=request.user)
 
-    return render(request, "confirm_delete_account.html")
+    # Only allow delete on POST (safe practice)
+    if request.method == "POST":
+        resume.delete()
+
+    return redirect("dashboard")
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
+from .models import Resume
+from xhtml2pdf import pisa
+import io
+
+
+def download_pdf(request, id, template):
+    resume = get_object_or_404(Resume, id=id, user=request.user)
+
+    # TEMPLATE MAPPING
+    template_map = {
+        "ats": "template_ats.html",
+        "modern": "template_modern.html",
+        "creative": "template_creative.html",
+    }
+
+    # SELECT TEMPLATE
+    selected_template = template_map.get(template, "template_ats.html")
+
+    # RENDER HTML
+    html_string = render_to_string(selected_template, {
+        "resume": resume,
+        "education_list": resume.education.split("\n") if resume.education else [],
+        "experience_list": resume.experience.split("\n") if resume.experience else [],
+        "skills_list": resume.skills.split(",") if resume.skills else [],
+    })
+
+    # CREATE PDF
+    result = io.BytesIO()
+    pdf = pisa.CreatePDF(html_string, dest=result)
+
+    if pdf.err:
+        return HttpResponse("Error generating PDF")
+
+    # RESPONSE
+    response = HttpResponse(result.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{resume.name}.pdf"'
+
+    return response
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
+@login_required
+def delete_account(request):
+    user = request.user
+    user.delete()
+    return redirect('signup')  # or home

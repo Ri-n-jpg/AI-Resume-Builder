@@ -1,19 +1,28 @@
 # resume/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Resume
+from django.contrib.auth import login, logout
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+from .forms import SignupForm
+from .models import Resume, Profile
 
 
+# ---------------- HOME ----------------
 def home(request):
     return render(request, "home.html")
 
 
+# ---------------- DASHBOARD ----------------
 @login_required
 def dashboard(request):
     resumes = Resume.objects.filter(user=request.user)
     return render(request, "dashboard.html", {"resumes": resumes})
 
 
+# ---------------- CREATE RESUME ----------------
 @login_required
 def create_resume(request):
     if request.method == "POST":
@@ -38,27 +47,7 @@ def create_resume(request):
     return render(request, "create_resume.html")
 
 
-@login_required
-def preview_resume(request, id):
-    resume = get_object_or_404(Resume, id=id)
-
-    education_list = [e.strip() for e in (resume.education or "").split("\n") if e.strip()]
-    experience_list = [e.strip() for e in (resume.experience or "").split("\n") if e.strip()]
-    skills_list = [s.strip() for s in (resume.skills or "").split(",") if s.strip()]
-
-    context = {
-        "resume": resume,
-        "education_list": education_list,
-        "experience_list": experience_list,
-        "skills_list": skills_list,
-    }
-
-    if resume.template == "template2":
-        return render(request, "template2.html", context)
-    return render(request, "template1.html", context)
-
-
-# ✅ FIXED: OUTSIDE (separate function)
+# ---------------- EDIT RESUME ----------------
 @login_required
 def edit_resume(request, id):
     resume = get_object_or_404(Resume, id=id, user=request.user)
@@ -82,15 +71,160 @@ def edit_resume(request, id):
         return redirect("dashboard")
 
     return render(request, "edit_resume.html", {"resume": resume})
+
+
+# ---------------- PREVIEW RESUME ----------------
+def preview_resume(request, id):
+    resume = get_object_or_404(Resume, id=id)
+
+    education_list = [e.strip() for e in (resume.education or "").split("\n") if e.strip()]
+    experience_list = [e.strip() for e in (resume.experience or "").split("\n") if e.strip()]
+    skills_list = [s.strip() for s in (resume.skills or "").split(",") if s.strip()]
+
+    context = {
+        "resume": resume,
+        "education_list": education_list,
+        "experience_list": experience_list,
+        "skills_list": skills_list,
+    }
+
+    if resume.template == "template2":
+        return render(request, "template2.html", context)
+
+    return render(request, "template1.html", context)
+
+
+# ---------------- OVERVIEW ----------------
+@login_required
 def overview(request):
-    resumes = Resume.objects.all()
+    resumes = Resume.objects.filter(user=request.user)
 
     context = {
         "total_resumes": resumes.count(),
-        "monthly_resumes": resumes.count(),  # (temporary logic)
-        "last_resume": resumes.order_by('-id').first()
+        "monthly_resumes": resumes.count(),
+        "last_resume": resumes.order_by("-id").first(),
     }
 
     return render(request, "overview.html", context)
+
+
+# ---------------- TEMPLATE PAGE ----------------
 def template(request):
     return render(request, "template.html")
+
+
+# ---------------- DELETE RESUME ----------------
+@login_required
+def delete_resume(request, id):
+    resume = get_object_or_404(Resume, id=id, user=request.user)
+
+    if request.method == "POST":
+        resume.delete()
+        return redirect("dashboard")
+
+    return render(request, "confirm_delete.html", {"resume": resume})
+
+
+# ---------------- SETTINGS ----------------
+@login_required
+def setting(request):
+    return render(request, "setting.html")
+
+
+# ---------------- UPDATE PROFILE ----------------
+@login_required
+def update_profile(request):
+    if request.method == "POST":
+        user = request.user
+        user.first_name = request.POST.get("name")
+        user.email = request.POST.get("email")
+        user.save()
+
+        messages.success(request, "Profile updated successfully ✅")
+        return redirect("settings")
+
+    return redirect("settings")
+
+
+# ---------------- SIGNUP ----------------
+def signup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("dashboard")
+    else:
+        form = SignupForm()
+
+    return render(request, "signup.html", {"form": form})
+
+
+# ---------------- LOGIN ----------------
+def user_login(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Invalid username or password ❌")
+    else:
+        form = AuthenticationForm()
+
+    return render(request, "login.html", {"form": form})
+
+
+# ---------------- LOGOUT ----------------
+def user_logout(request):
+    logout(request)
+    return redirect("login")
+
+
+# ---------------- SAVE TEMPLATE ----------------
+@login_required
+def save_template(request):
+    if request.method == "POST":
+        template = request.POST.get("template")
+
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        profile.default_template = template
+        profile.save()
+
+        return redirect("settings")
+
+
+# ---------------- CHANGE PASSWORD ----------------
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect("settings")
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    return render(request, "change_password.html", {"form": form})
+
+
+# ---------------- LOGOUT ALL ----------------
+@login_required
+def logout_all(request):
+    logout(request)
+    return redirect("login")
+
+
+# ---------------- DELETE ACCOUNT ----------------
+@login_required
+def delete_account(request):
+    if request.method == "POST":
+        request.user.delete()
+        return redirect("home")
+
+    return render(request, "confirm_delete_account.html")

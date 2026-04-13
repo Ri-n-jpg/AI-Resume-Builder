@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container" style="max-width: 600px;">
+
+  <h2 class="fw-bold mb-4">👤 Update Profile</h2>
+
+  <div class="card shadow p-4 rounded-4">
+
+    <!-- SUCCESS MESSAGE -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'update_profile' %}">
+      {% csrf_token %}
+
+      <!-- NAME -->
+      <label class="form-label">Name</label>
+      <input type="text"
+             name="name"
+             value="{{ request.user.first_name }}"
+             class="form-control mb-3"
+             placeholder="Enter your name">
+
+      <!-- EMAIL -->
+      <label class="form-label">Email</label>
+      <input type="email"
+             name="email"
+             value="{{ request.user.email }}"
+             class="form-control mb-3"
+             placeholder="Enter your email">
+
+      <!-- BUTTON -->
+      <button type="submit" class="btn btn-primary w-100 fw-bold">
+        Update Profile
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

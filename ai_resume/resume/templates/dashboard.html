@@ -1,30 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class="container-fluid">
   <div class="row">
 
     <!-- SIDEBAR -->
     <div class="col-md-2 bg-light min-vh-100 p-4 shadow-sm">
+
       <h5 class="mb-4 fw-bold">Dashboard</h5>
 
       <ul class="nav flex-column">
+
+        <!-- HOME -->
         <li class="nav-item mb-2">
-          <a  class="nav-link text-dark" href="{% url 'overview' %}">Overview</a>
+          <a class="nav-link text-dark" href="{% url 'home' %}">
+            🏠 Home
+          </a>
         </li>
 
+        <!-- OVERVIEW -->
         <li class="nav-item mb-2">
-          <a class="nav-link active fw-bold text-primary" href="/dashboard/">📄 My Resumes</a>
+          <a class="nav-link text-dark" href="{% url 'overview' %}">
+            📊 Overview
+          </a>
         </li>
 
+        <!-- TEMPLATES -->
         <li class="nav-item mb-2">
-          <a class="nav-link text-dark" href="{% url 'template' %}">🎨 Templates</a>
+          <a class="nav-link text-dark" href="{% url 'template' %}">
+            🎨 Templates
+          </a>
         </li>
 
+        <!-- SETTINGS -->
         <li class="nav-item mb-2">
-          <a class="nav-link text-dark" href="#">⚙️ Settings</a>
+          <a class="nav-link text-dark" href="{% url 'settings' %}">
+            ⚙️ Settings
+          </a>
         </li>
+
       </ul>
     </div>
 
@@ -51,6 +65,7 @@
 
               <h5 class="card-title fw-bold">{{ resume.name }}</h5>
               <p class="text-muted mb-1">{{ resume.email }}</p>
+
               <p class="text-muted small">
                 Created: {{ resume.created_at|date:"d M Y" }}
               </p>

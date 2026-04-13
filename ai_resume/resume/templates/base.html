@@ -16,9 +16,22 @@
     <a class="navbar-brand" href="/">AI Resume</a>
 
     <div class="ms-auto">
-      <a href="/dashboard/" class="btn btn-outline-light me-2">Dashboard</a>
-      <a href="/create/" class="btn btn-primary me-2">Create Resume</a>
-      <a href="/logout/" class="btn btn-danger">Logout</a>
+
+      {% if user.is_authenticated %}
+
+        <a href="/dashboard/" class="btn btn-outline-light me-2">Dashboard</a>
+        <a href="/create/" class="btn btn-primary me-2">Create Resume</a>
+        <a href="/logout/" class="btn btn-danger">Logout</a>
+
+      {% else %}
+
+        <a href="/" class="btn btn-outline-light me-2">Home</a>
+        <a href="/template/" class="btn btn-warning me-2">Templates</a>
+        <a href="/login/" class="btn btn-success me-2">Sign In</a>
+        <a href="/signup/" class="btn btn-primary me-2">Sign Up</a>
+
+      {% endif %}
+
     </div>
 
   </div>

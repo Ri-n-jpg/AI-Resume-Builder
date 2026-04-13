@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div class="container">
+
+  <h2 class="fw-bold mb-4">⚙️ Settings</h2>
+
+  <!-- PROFILE -->
+  <div class="card p-4 mb-4 shadow-sm rounded-4">
+
+    <h5 class="fw-bold mb-3">👤 Profile Settings</h5>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'update_profile' %}">
+      {% csrf_token %}
+
+      <input type="text"
+             name="name"
+             value="{{ request.user.first_name }}"
+             class="form-control mt-2"
+             placeholder="Name">
+
+      <input type="email"
+             name="email"
+             value="{{ request.user.email }}"
+             class="form-control mt-2"
+             placeholder="Email">
+
+      <button type="submit" class="btn btn-primary mt-3 w-100">
+        Update Profile
+      </button>
+    </form>
+
+  </div>
+
+  <!-- TEMPLATE -->
+  <div class="card p-4 mb-4">
+
+    <h5 class="fw-bold">🎨 Default Template</h5>
+
+    <form method="POST" action="{% url 'save_template' %}">
+      {% csrf_token %}
+
+      <select name="template" class="form-control mt-2">
+        <option value="template1">Template 1</option>
+        <option value="template2">Template 2</option>
+      </select>
+
+      <button type="submit" class="btn btn-success mt-3 w-100">
+        Save Preference
+      </button>
+    </form>
+
+  </div>
+
+  <!-- SECURITY -->
+  <div class="card p-4 mb-4">
+
+    <h5 class="fw-bold">🔐 Security</h5>
+
+    <a href="{% url 'change_password' %}" class="btn btn-warning mt-2 w-100">
+      Change Password
+    </a>
+
+    <a href="{% url 'logout_all' %}" class="btn btn-danger mt-2 w-100">
+      Logout All Devices
+    </a>
+
+  </div>
+
+  <!-- DELETE ACCOUNT -->
+  <div class="card p-4 border-danger">
+
+    <h5 class="text-danger fw-bold">🗑 Danger Zone</h5>
+
+    <form method="POST" action="{% url 'delete_account' %}">
+      {% csrf_token %}
+
+      <button type="submit" class="btn btn-danger mt-2 w-100">
+        Delete Account
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

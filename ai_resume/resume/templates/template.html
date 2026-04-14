@@ -7,43 +7,36 @@
 
   <div class="row g-4">
 
-    <!-- TEMPLATE 1 -->
-    <div class="col-md-6">
-      <div class="card shadow-sm p-3">
+    {% for t in templates %}
 
-        <h5 class="fw-bold">Template 1 - Classic</h5>
-        <p class="text-muted">Simple professional resume layout</p>
+    <div class="col-md-4">
 
-        <div class="border p-2 bg-light">
-          <small>Preview</small>
-          <p class="mb-0">Centered clean resume design</p>
+      <div class="card shadow-sm p-3 h-100">
+
+        <!-- TITLE -->
+        <h5 class="fw-bold">{{ t.name }}</h5>
+
+        <!-- DESCRIPTION -->
+        <p class="text-muted">{{ t.desc }}</p>
+
+        <!-- PREVIEW BOX -->
+        <div class="border p-3 bg-light mb-3" style="min-height: 80px;">
+          <small class="text-muted">Preview</small>
+          <p class="mb-0 mt-1">
+            ATS optimized professional layout
+          </p>
         </div>
 
-        <a href="/create/?template=1" class="btn btn-primary mt-3">
+        <!-- BUTTON -->
+        <a href="/create/?template={{ t.id }}" class="btn btn-primary w-100">
           Use Template
         </a>
 
       </div>
+
     </div>
 
-    <!-- TEMPLATE 2 -->
-    <div class="col-md-6">
-      <div class="card shadow-sm p-3">
-
-        <h5 class="fw-bold">Template 2 - Modern Sidebar</h5>
-        <p class="text-muted">ATS friendly with sidebar layout</p>
-
-        <div class="border p-2 bg-light">
-          <small>Preview</small>
-          <p class="mb-0">Left sidebar + content layout</p>
-        </div>
-
-        <a href="/create/?template=2" class="btn btn-primary mt-3">
-          Use Template
-        </a>
-
-      </div>
-    </div>
+    {% endfor %}
 
   </div>
 

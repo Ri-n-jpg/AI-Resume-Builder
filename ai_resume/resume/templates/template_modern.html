@@ -45,6 +45,10 @@
         {% endfor %}
     </ul>
 </div>
-
+<div style="text-align:center; margin-bottom:20px;">
+    <a href="{% url 'download_pdf' resume.id resume.template %}">
+  Download PDF
+</a>
+</div>
 </body>
 </html>

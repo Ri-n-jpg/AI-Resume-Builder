@@ -73,7 +73,7 @@ def edit_resume(request, id):
     return render(request, "edit_resume.html", {"resume": resume})
 
 
-# ---------------- PREVIEW RESUME ----------------
+# ---------------- PREVIEW RESUME ---------------->
 def preview_resume(request, id):
     resume = get_object_or_404(Resume, id=id)
 
@@ -88,11 +88,21 @@ def preview_resume(request, id):
         "skills_list": skills_list,
     }
 
-    if resume.template == "template2":
-        return render(request, "template2.html", context)
+    # 🔥 SUPPORT ALL OLD + NEW VALUES
+    template_map = {
+        # OLD SYSTEM (keep for backward compatibility)
+        "template1": "template1.html",
+        "template2": "template2.html",
 
-    return render(request, "template1.html", context)
+        # NEW SYSTEM (recommended)
+        "ats": "template_ats.html",
+        "modern": "template_modern.html",
+        "creative": "template_creative.html",
+    }
 
+    selected_template = template_map.get(resume.template, "template_ats.html")
+
+    return render(request, selected_template, context)
 
 # ---------------- OVERVIEW ----------------
 @login_required
@@ -110,7 +120,16 @@ def overview(request):
 
 # ---------------- TEMPLATE PAGE ----------------
 def template(request):
-    return render(request, "template.html")
+
+    templates = [
+        {"id": "ats1", "name": "ATS Classic", "desc": "Clean ATS friendly resume"},
+        {"id": "ats2", "name": "ATS Professional", "desc": "HR optimized format"},
+        {"id": "ats3", "name": "ATS Minimal", "desc": "Simple and clean layout"},
+        {"id": "modern", "name": "Modern Sidebar", "desc": "Stylish modern design"},
+        {"id": "creative", "name": "Creative", "desc": "Colorful design"},
+    ]
+
+    return render(request, "template.html", {"templates": templates})
 
 
 # ---------------- DELETE RESUME ----------------

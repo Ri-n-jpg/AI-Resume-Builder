@@ -1,4 +1,4 @@
-# resume/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
@@ -13,6 +13,7 @@ from .models import Resume, Profile
 # ---------------- HOME ----------------
 def home(request):
     return render(request, "home.html")
+    # not logged in
 
 
 # ---------------- DASHBOARD ----------------
@@ -298,3 +299,5 @@ def delete_account(request):
     user = request.user
     user.delete()
     return redirect('signup')  # or home
+
+

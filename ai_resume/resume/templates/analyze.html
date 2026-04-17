@@ -1,0 +1,18 @@
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <h3>Upload Resume</h3>
+
+  <input type="file" name="resume_file" class="form-control">
+
+  <button type="submit" class="btn btn-primary mt-3">
+    Analyze Resume
+  </button>
+</form>
+
+{% if result %}
+  <div class="mt-4">
+    <h4>Analysis Result:</h4>
+    <pre>{{ result }}</pre>
+  </div>
+{% endif %}

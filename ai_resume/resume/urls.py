@@ -22,14 +22,11 @@ path('logout/', views.user_logout, name='logout'),
 path('signup/', views.signup, name='signup'),
 
 # FEATURES
-path('save-template/', views.save_template, name='save_template'),
-path('change-password/', views.change_password, name='change_password'),
-path('logout-all/', views.logout_all, name='logout_all'),
-path('delete-account/', views.delete_account, name='delete_account'),
+ path('save-template/', views.save_template, name='save_template'),
+    path('change-password/', views.change_password, name='change_password'),
+    path('logout-all/', views.logout_all, name='logout_all'),
+    path('delete-account/', views.delete_account, name='delete_account'),
 
-# DELETE
-path('delete/<int:id>/', views.delete_resume, name='delete_resume'),
-
-# DOWNLOAD (ONLY ONE)
-path('download/<int:id>/<str:template>/', views.download_pdf, name='download_pdf'),
-   ]
+    path('delete/<int:id>/', views.delete_resume, name='delete_resume'),
+    path('download/<int:id>/<str:template>/', views.download_pdf, name='download_pdf'),
+]
